@@ -26,3 +26,7 @@
 
 创建主题：hugo new theme 
 
+展示编译的详细信息：hugo --verbose / hugo server --verbose
+
+
+

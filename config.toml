@@ -1,7 +1,7 @@
 baseurl = "http://replace-this-with-your-hugo-site.com/"
 title = "My New Hugo Site"
 languageCode = "en-us"
-theme = "hugo_theme_robust"
+theme = "zafta"
 buildDrafts = true
 
 [Params]
