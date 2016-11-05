@@ -38,6 +38,7 @@ verbose = true
 # 其他参数
 [params]
     author = 'GitHub @pinggod<pinggodstudio@gmail.com>'
+    description = "a personal blog used to noted life and work"
 
 # markdown 编译选项
 [blackfriday]
