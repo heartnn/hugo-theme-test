@@ -1,8 +1,47 @@
-baseurl = "http://replace-this-with-your-hugo-site.com/"
-title = "My New Hugo Site"
-languageCode = "en-us"
-theme = "zafta"
+# 基准地址
+baseURL = 'http://pinggod.com'
+# 是否编译草稿
 buildDrafts = true
+# 默认内容语言
+DefaultContentLanguage = 'zh'
+# 使用 RobotsTxt
+enableRobotsTXT = true
+# 谷歌分析用户 ID
+googleAnalytics = ''
+# 忽略使用以下扩展名的文件
+ignoreFiles = ['\\.scss$']
+# 页面语言类型
+languageCode = "zh-CN"
+# 每页数量
+paginate = 10
+# 分页目录
+paginatePath = 'page'
+# 性能信息
+stepAnalysis = true
+# 使用的主题名
+theme = "hugo-theme-dido"
+# 网站标题
+title = 'Pinggod · VENI VIDI VICI'
+# 自动检测中日韩（CJK，Chinese / Japanese / Korean）语言
+hasCJKLanguage = true
+# 详细的编译信息
+verbose = true
 
-[Params]
-    Author = "Sean Sun"
+# 永久链接格式
+[permalinks]
+    post = '/:year/:title/'
+
+[taxonomies]
+    category = "categories"
+    tag = "tags"
+
+# 其他参数
+[params]
+    author = 'GitHub @pinggod<pinggodstudio@gmail.com>'
+
+# markdown 编译选项
+[blackfriday]
+    fractions = false
+    hrefTargetBlank = true
+    plainIDAnchors = true
+    extensions = ['hardLineBreak']
