@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pinggod · VENI VIDI VICI</title>
+    <link>http://pinggod.com/en/index.xml</link>
+    <description>Recent content on Pinggod · VENI VIDI VICI</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 10 Nov 2016 10:29:28 +0800</lastBuildDate>
+    <atom:link href="http://pinggod.com/en/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>abc.en</title>
+      <link>http://pinggod.com/en/post/abc/</link>
+      <pubDate>Thu, 10 Nov 2016 10:29:28 +0800</pubDate>
+      
+      <guid>http://pinggod.com/en/post/abc/</guid>
+      <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, aut, molestias. Temporibus fugit sit saepe harum. Alias ad, esse qui, a necessitatibus tempora cum commodi recusandae, rem, maiores ea enim!&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

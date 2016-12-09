@@ -31,6 +31,12 @@ verbose = true
 # [permalinks]
 #     post = '/:year/:title/'
 
+[Languages]
+[Languages.en]
+    abc = 'abc'
+[Languages.zh]
+    abc = '一二三'
+
 [taxonomies]
     category = "categories"
     tag = "tags"
