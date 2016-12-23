@@ -21,6 +21,8 @@ hugo new site blog
 - data: 
 - layouts: 网站模版
 - static: 静态资源
+- i8n: 国际化方案
+- theme: 主题资源
 
 新建文章使用 `hugo new [post-name]` 命令，默认生成的草稿文章，比如：
 
@@ -83,12 +85,250 @@ hugo server --verbose
 
 ## 配置
 
-Hugo 项目的配置文件位于项目根目录下的 `config.toml` 文件中，
+Hugo 项目的配置文件位于项目根目录下的 `config.toml` 文件中，允许配置的参数及其默认值包括：
+
+```toml
+# 归档目录
+archetypeDir:               "archetypes"
+# 域名，比如 http://spf13.com/
+baseURL:                    ""
+# 是否编译草稿
+buildDrafts:                false
+# 是否编译尚未达到发布日期的文章
+buildFuture:                false
+# 是否编译过期的文章
+buildExpired:               false
+# 是否使用相对路径，该选项不影响使用绝对路径的链接
+relativeURLs:               false
+canonifyURLs:               false
+# 配置文件，默认值查找项目根目录下的 config.yaml、config.json 和 config.toml
+config:                     "config.toml"
+# 内容目录
+contentDir:                 "content"
+# 数据目录
+dataDir:                    "data"
+# 默认的扩展名
+defaultExtension:           "html"
+# 默认的布局模版
+defaultLayout:              "post"
+# 默认的内容语言
+defaultContentLanguage:     "en"
+# 是否将生成的默认语言文件存放在子目录中，比如对默认的 /en/，根目录会自动从 / 重定向到 /en/
+defaultContentLanguageInSubdir: false
+# 是否禁用实时重载功能
+disableLiveReload:          false
+# 是否禁用 RSS
+disableRSS:                 false
+# 是否禁用 Sitemap
+disableSitemap:             false
+# 是否使用 GitInfo
+enableGitInfo:              false
+# 是否生成 Robots
+enableRobotsTXT:            false
+# 是否禁用 404
+disable404:                 false
+# 是否不向主页注入生成器信息
+disableHugoGeneratorInject: false
+# 使用指定编辑器编辑新文章
+editor:                     ""
+# 是否允许使用 Emoji
+# See www.emoji-cheat-sheet.com
+enableEmoji:                false
+# Show a placeholder instead of the default value or an empty string if a translation is missing
+enableMissingTranslationPlaceholders: false
+footnoteAnchorPrefix:       ""
+footnoteReturnLinkContents: ""
+# google analytics tracking id
+googleAnalytics:            ""
+languageCode:               ""
+layoutDir:                  "layouts"
+# 是否启用日志功能
+log:                        false
+# 日志文件位置
+logFile:                    ""
+# 元数据的扩展名："yaml", "toml", "json"
+metaDataFormat:             "toml"
+newContentEditor:           ""
+# 是否禁用同步文件的权限信息 
+noChmod:                    false
+# 是否禁用同步文件的修改事件
+noTimes:                    false
+# 每页的文章数量
+paginate:                   10
+# 分页页面的路径
+paginatePath:               "page"
+permalinks:
+# Pluralize titles in lists using inflect
+pluralizeListTitles:        true
+# 是否允许在术语名称中使用特殊字符，比如 "Gérard Depardieu"
+preserveTaxonomyNames:      false
+# 部署目录
+publishDir:                 "public"
+# 是否允许对未指定语言的代码进行代码类型预测
+pygmentsCodeFencesGuessSyntax: false
+# 语法高亮主题名称
+pygmentsStyle:              "monokai"
+# true: use pygments-css or false: color-codes directly
+pygmentsUseClasses:         false
+# default sitemap configuration map
+sitemap:
+# 资源目录
+source:                     ""
+staticDir:                  "static"
+# 是否追踪编译过程中的内存和时间使用信息
+stepAnalysis:               false
+# 主题目录
+themesDir:                  "themes"
+# 主题名称
+theme:                      ""
+title:                      ""
+# 是否将 filename.html 替换为 /filename/
+uglyURLs:                   false
+# 是否禁用自动将 url/path 转换为小写字符
+disablePathToLower:         false
+# if true, auto-detect Chinese/Japanese/Korean Languages in the content. (.Summary and .WordCount can work properly in CJKLanguage)
+hasCJKLanguage:             false
+# 是否输出编译详情
+verbose:                    false
+# 是否启用日志记录编译详情
+verboseLog:                 false
+# 是否监视文件变动并重新编译资源
+watch:                      true
+
+# 指定编译时忽略的文件
+ignoreFiles = ["\\.foo$", "\\.boo$"]
+```
+
+Hugo 使用 [Blackfriday](https://github.com/russross/blackfriday) 作为 Markdown 语法的渲染引擎，与之相关的配置信息也可以写入 config.toml 文件中，比如：
+
+```toml
+[blackfriday]
+    angledQuotes = true
+    fractions = false
+    plainIDAnchors = true
+    extensions = ["hardLineBreak"]
+```
+
+Blackfriday 的详细配置信息可以参考 [https://gohugo.io/overview/configuration#configure-blackfriday-rendering](https://gohugo.io/overview/configuration#configure-blackfriday-rendering)。
+
+## Content
+
+一个典型的 Content 目录结构如下所示：
+
+```bash
+.
+└── content
+    └── about
+    |   └── index.md                # <- http://pinggod.com/about/
+    ├── post
+    |   ├── firstpost.md            # <- http://pinggod.com/post/firstpost/
+    |   ├── happy
+    |   |   └── ness.md             # <- http://pinggod.com/post/happy/ness/
+    |   └── secondpost.md           # <- http://pinggod.com/post/secondpost/
+    └── quote
+        ├── first.md                # <- http://pinggod.com/quote/first/
+        └── second.md               # <- http://pinggod.com/quote/second/
+```
+
+Hugo 相信开发者会根据自己的需要合理安排目录结构，所以 Hugo 会根据 Content 目录结构编译出结构类似的 Public 目录。注意，About 页面需要置于一级目录且内部包含一个 index.md 文件，编译之后使用 `http://pinggod.com/about` 访问。在头信息（Front Matter）中，通过指定不同的参数，可以更好地控制文章内容的展现，下面列出的可用参数是按特定顺序排列的，后者可以覆盖前者：
+
+- filename：该字段不会出现在头信息中，而是体现在文件名中
+- slug：filename.extension 或 filename/
+- filepath
+- section：根据文件在 Content 中的结构决定
+- type
+- path：section + path/to/slug
+- url: 相对路径
+
+```bash
+           permalink
+⊢--------------^-------------⊣
+http://spf13.com/projects/hugo
 
 
+   baseURL       section  slug
+⊢-----^--------⊣ ⊢--^---⊣ ⊢-^⊣
+http://spf13.com/projects/hugo
 
 
+   baseURL       section          slug
+⊢-----^--------⊣ ⊢--^--⊣        ⊢--^--⊣
+http://spf13.com/extras/indexes/example
 
+
+   baseURL            path       slug
+⊢-----^--------⊣ ⊢------^-----⊣ ⊢--^--⊣
+http://spf13.com/extras/indexes/example
+
+
+   baseURL            url
+⊢-----^--------⊣ ⊢-----^-----⊣
+http://spf13.com/projects/hugo
+
+
+   baseURL               url
+⊢-----^-- ------⊣ ⊢--------^-----------⊣
+http://spf13.com/extras/indexes/example
+```
+
+Hugo 对于每篇文章的头信息，预定义了一些变来那个，这些变量可以通过 `.Params` 变量获取：
+
+- title，内容标题
+- description，内容描述
+- data，内容创建时间
+- tags / categories（taxonomies），分类信息
+- aliases，地址别名
+- draft，是否是草稿
+- publishdata，发布时间
+- expirydata，过期时间
+- type，内容类型
+- isCJKLanguage，是否是中日韩语言，中日韩语言的字符将会被特殊处理，以保证字数计算的准确性
+- weight，内容的权重
+- markup，内容类型，默认是 markdown
+- slug，地址尾部地址，可用于修改文章地址
+- url，文章的完整路径
+
+默认情况下，type 等同于 section，section 就是 content 目录下直接子目录的名称，直接在头信息中定义 type 可以覆盖已有信息。如果要创建一个 type 的模版，需要在主题的 layout 目录下创建一个 type 目录，比如创建一个 post type，则需要在主题目录下创建一个 `layout/post/single.html`；如果想为同一个 type 的所有文章创建一个页面，则需要在主题目录下创建 `layout/section/post.html`。通过在 `/archetypes` 目录下创建 `type.md`，可以为 type 或 section 文章创建脚手架文章。
+
+通过 page 下的 `.Summary` 变量，我们可以获取页面的摘要信息，默认摘要信息是文章的前七十个字符，你也可以使用 `<!--more-->` 来显式声明摘要。此外，Hugo 还提供了一个 `.Truncated` 变量，用于表示除摘要外，页面是否还有其他功能。
+
+如果你想做一个多语言静态网站，可以使用 Hugo 提供的国际化功能，该功能主要分为两个部分，一个是将多语言信息存放在 config.toml 文件中，比如一些网站的标题等：
+
+```bash
+[Languages]
+[Languages.en]
+title = "My blog"
+weight = 1
+[Languages.en.params]
+linkedin = "english-link"
+
+[Languages.fr]
+copyright = "Tout est à moi"
+title = "Mon blog"
+weight = 2
+[Languages.fr.params]
+linkedin = "lien-francais"
+```
+
+此外，还可以将国际化信息存放在 i18n 目录下，比如将英文信息存放在 `i18n/en.yaml`：
+
+```yaml
+- id: home
+  translation: "Home"
+```
+
+使用方式是：
+
+```go
+{{ i18n "home" }}
+```
+
+为了便于 Hugo 识别不同语言的文章，需要通过文件名体现当前内容的语言：
+
+- 英文文章：`/content/about.en.md`
+- 法文文章：`/content/about.fr.md`
+
+## Templates
 
 
 
