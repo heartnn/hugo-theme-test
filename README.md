@@ -437,6 +437,748 @@ Stuff Here
 </div>
 ```
 
+很多时候，你可以使用 with 替代 if：
+
+```go
+{{if .Site.Params.CopyrightHTML}}
+<footer>
+    <div class="text-center">{{.Site.Params.CopyrightHTML | safeHTML}}</div>
+</footer>
+{{end}}
+
+// 等同于
+{{with .Site.Params.CopyrightHTML}}
+<footer>
+    <div class="text-center">{{.Site.Params.CopyrightHTML | safeHTML}}</div>
+</footer>
+{{end}}
+```
+
+## 辅助函数
+
+**default**，判断是否有值，没有则提供一个默认值：
+
+```go
+{{ index .Params "font" | default "Roboto" }} 
+
+{{ default "Roboto" (index .Params "font") }} 
+```
+
+**delimit**，遍历数组并返回一个字符串，字符串的内容就是数组元素，数组元素之间以指定分隔符相连：
+
+```go
+// +++
+// tags: [ "tag1", "tag2", "tag3" ]
+// +++ 
+
+{{ delimit .Params.tags "," }}
+// => "tag1, tag2, tag3"
+
+{{ delimit .Params.tags ", " " and " }}
+// => "tag1, tag2 and tag3"
+```
+
+**dict**，创建一个字典：
+
+```go
+{{$important := .Site.Params.SomethingImportant }}
+{{range .Site.Params.Bar}}
+    {{partial "foo" (dict "content" . "important" $important)}}
+{{end}}
+
+// foo.html
+Important {{.important}}
+{{.content}}
+```
+
+**slice**，创建一个数组：
+
+```go
+{{ delimit (slice "foo" "bar" "buzz") ", " }}
+// returns the string "foo, bar, buzz" 
+```
+
+**shuffle**，返回一个随机序列的数组：
+
+```go
+{{ shuffle (seq 1 5) }}
+// returns [2 5 3 1 4]
+
+{{ shuffle (slice "foo" "bar" "buzz") }}
+// returns [buzz foo bar]
+```
+
+**echoParam**，如果变量存在，则将其打印出来：
+
+```go
+{{ echoParam .Params "project_url" }}
+```
+
+**eq**，判断是否相等，比如 `{{ if eq .Section "blog" }}current{{ end }}`
+
+**first**，切分数组的第一个元素到第 N 个元素，生成新数组：
+
+```go
+{{ range first 10 .Data.Pages }}
+    {{ .Render "summary" }}
+{{ end }}
+```
+
+**jsonify**，将一个对象转换为 JSON：
+
+```go
+{{ dict "title" .Title "content" .Plain | jsonify }}
+```
+
+**last**，切分数组的最后一个元素到倒数第 N 个元素，生成新数组：
+
+```go
+{{ range last 10 .Data.Pages }}
+    {{ .Render "summary" }}
+{{ end }}
+```
+
+**after**，切分数组的第 N 个元素到最后一个元素，生成心数组：
+
+```go
+{{ range after 10 .Data.Pages }}
+    {{ .Render "title" }}
+{{ end }}
+```
+
+**getenv**，返回环境变量：
+
+```go
+{{ getenv "HOME" }}
+```
+
+**in**，判断数组中是否包含某个元素，然后布尔值。即可检查字符串、整数和浮点数是否在数组中，也可以检查某个字符串是不是另一个字符串的子串：
+
+```go
+{{ if in .Params.tags "Git" }}
+Follow me on GitHub!
+{{ end }}
+```
+
+**intersect**，求数组合集，常用于查找具有相同标签的文章：
+
+```go
+<ul>
+{{ $page_link := .Permalink }}
+{{ $tags := .Params.tags }}
+{{ range .Site.Pages }}
+    {{ $page := . }}
+    {{ $has_common_tags := intersect $tags .Params.tags | len | lt 0 }}
+    {{ if and $has_common_tags (ne $page_link $page.Permalink) }}
+        <li><a href="{{ $page.Permalink }}">{{ $page.Title }}</a></li>
+    {{ end }}
+{{ end }}
+</ul>
+```
+
+**isset**，检查是否设置了某个参数：
+
+```go
+{{ if isset .Params "project_url" }} 
+    {{ index .Params "project_url" }}
+{{ end }}
+```
+
+**seq**，创建一个整数数列，创建规则：
+
+- 3 => 1, 2, 3
+- 1 2 4 => 1, 3
+- -3 => -1, -2, -3
+- 1 4 => 1, 2, 3, 4
+- 1 -2 => 1, 0, -1, -2
+
+**sort**，对 map、数组等进行排序：
+
+```go
+// Front matter
++++
+tags: [ "tag3", "tag1", "tag2" ]
++++
+
+// Site config
++++
+[params.authors]
+  [params.authors.Derek]
+    "firstName"  = "Derek"
+    "lastName"   = "Perkins"
+  [params.authors.Joe]
+    "firstName"  = "Joe"
+    "lastName"   = "Bergevin"
+  [params.authors.Tanner]
+    "firstName"  = "Tanner"
+    "lastName"   = "Linsley"
++++
+
+// Use default sort options - sort by key / ascending
+Tags: {{ range sort .Params.tags }}{{ . }} {{ end }}
+
+// Outputs Tags: tag1 tag2 tag3
+
+// Sort by value / descending
+Tags: {{ range sort .Params.tags "value" "desc" }}{{ . }} {{ end }}
+
+// Outputs Tags: tag3 tag2 tag1
+
+// Use default sort options - sort by value / descending
+Authors: {{ range sort .Site.Params.authors }}{{ .firstName }} {{ end }}
+
+// Outputs Authors: Derek Joe Tanner
+
+// Use default sort options - sort by value / descending
+Authors: {{ range sort .Site.Params.authors "lastName" "desc" }}{{ .lastName }} {{ end }}
+
+// Outputs Authors: Perkins Linsley Bergevin
+```
+
+**where**，过滤数组，筛选符合条件的元素生成新数组：
+
+```go
+{{ range where .Data.Pages "Section" "post" }}
+   {{ .Content }}
+{{ end }}
+
+// 第二个参数可以使用 . 引用嵌套元素
++++
+series: golang
++++
+
+{{ range where .Site.Pages "Params.series" "golang" }}
+   {{ .Content }}
+{{ end }}
+
+// 还可以使用比较元素符
+{{ range where .Data.Pages "Section" "!=" "post" }}
+   {{ .Content }}
+{{ end }}
+```
+
+可用的比较运算符包括：= / == / eq, != / <> / ne, >= / ge， > / gt, < / lt, in, not in, intersect。
+
+```go
+{{ range where .Site.Pages ".Params.tags" "intersect" .Params.tags }}
+  {{ if ne .Permalink $.Permalink }}
+    {{ .Render "summary" }}
+  {{ end }}
+{{ end }}
+
+{{ range first 5 (where .Data.Pages "Section" "post") }}
+   {{ .Content }}
+{{ end }}
+```
+
+此外，你还可以使用 `nil` 表示空：
+
+```go
+{{ range where .Data.Pages ".Params.specialpost" "!=" nil }}
+   {{ .Content }}
+{{ end }}
+```
+
+**readDir**，根据相对路径获取当前目录数据：
+
+```go
+{{ range (readDir ".") }}
+    {{ .Name }}
+{{ end }}
+```
+
+**readFile**，读取文件并将其内容转换为字符串：
+
+```go
+{{readFile "README.txt"}}
+```
+
+和数学运算有关的函数：
+
+- add, 求和
+- div，求商
+- mod，取余
+- modBol，如果余数为 0，则返回 true，否则返回 false
+- mul，求积
+- sub，求差
+
+**int**，将字符串转换为整数：`{{ int "123" }}`。
+
+**printf**，格式化输出：`{{ i18n ( printf "combined_%s" $var ) }}`。
+
+**chomp**，去除尾部多余的空行：`{{chomp "<p>Blockhead</p>\n"}}` => `<p>Blockhead</p>`。
+
+**dateFormat**，格式化日期：
+
+```go
+{{ dateFormat "Monday, Jan 2, 2006" "2015-01-21" }}
+// => Wednesday, Jan 21, 2015
+```
+
+**emojify**，处理 Emoji 表情，避免被 Go 模版引擎过滤掉：
+
+```go
+{{ "I :heart: Hugo" | emojify }}
+```
+
+**highlight**，对一段代码进行语法高亮处理。
+
+**htmlEscape**，对特殊字符进行转义，除非内容经过 `safeHTML` 函数处理，否则都会被模版引擎转义：
+
+```go
+{{ htmlEscape "Hugo & Caddy > Wordpress & Apache" }} 
+// => "Hugo &amp; Caddy &gt; Wordpress &amp; Apache"
+```
+
+**htmlUnescape**，与 `htmlEscape` 功能相反。
+
+**humanize**，返回人类可读的格式：
+
+```go
+{{humanize "my-first-post"}} 
+// => "My first post"
+{{humanize "myCamelPost"}} 
+// => "My camel post"
+{{humanize "52"}} 
+// => "52nd"
+{{humanize 103}} 
+// => "103rd"
+```
+
+**lower**，转换为小写形式的字符串。
+
+**markdownify**，使用 Markdown 处理器解析字符串，结果会被认为是安全的，不会被模版引擎过滤掉：
+
+```go
+{{ .Title | markdownify }}
+```
+
+**pluralize**，去除 HTML 标签：
+
+```go
+{{ "<b>BatMan</b>" | plainify }}
+// =>  “BatMan”
+```
+
+**pluralize**，复数化：
+
+```go
+{{ "cat" | pluralize }} 
+// => “cats”
+```
+
+**findRE**，返回匹配正则的数组，可以用来创建 TOC：
+
+```go
+{{ $headers := findRE "<h2.*?>(.|\n)*?</h2>" .Content }}
+
+{{ if ge (len $headers) 1 }}
+    <ul>
+    {{ range $headers }}
+        <li>
+            <a href="#{{ . | plainify | urlize }}">
+                {{ . | plainify }}
+            </a>
+        </li>
+    {{ end }}
+    </ul>
+{{ end }}
+```
+
+**replace**，替换：
+
+```go
+{{ replace "Batman and Robin" "Robin" "Catwoman" }}
+// => “Batman and Catwoman”
+```
+
+**replaceRE**，正则替换：
+
+```go
+{{ replaceRE "^https?://([^/]+).*" "$1" "http://gohugo.io/docs" }}
+// => gohugo.io
+
+{{ "http://gohugo.io/docs" | replaceRE "^https?://([^/]+).*" "$1" }}
+// => gohugo.io
+```
+
+**safeHTML**，保证字符串为安全的 HTML 片段，避免被模版引擎过滤掉：
+
+```go
+{{ $copyright := "© 2015 Jane Doe" }}
+{{ .Site.Copyright | safeHTML }}
+```
+
+**saftHTMLAttr**，保证属性是安全的字符串，不会被模版引擎过滤掉：
+
+```go
+[[menu.main]]
+    name = "IRC: #golang at freenode"
+    url = "irc://irc.freenode.net/#golang"
+
+<a href="{{ .URL }}">
+// => <a href="#ZgotmplZ">
+
+<a {{ printf "href=%q" .URL | safeHTMLAttr }}>
+// => <a href="irc://irc.freenode.net/#golang">
+```
+
+**safeCSS**，保证 CSS 代码是安全的，不会被模版引擎过滤掉：
+
+```go
+<p style="{{ .Params.style | safeCSS }}">…</p>
+// => <p style="color: red;">…</p>
+
+<p style="{{ .Params.style }}">…</p>
+// => <p style="ZgotmplZ">…</p>
+```
+
+**safeJS**，保证 JS 代码是安全的，避免被模版引擎过滤掉：
+
+```go
+<script>var form_{{ .Params.hash | safeJS }};…</script>
+// => <script>var form_619c16f;…</script>
+
+<script>var form_{{ .Params.hash }};…</script>
+// => <script>var form_"619c16f";…</script>
+```
+
+**singularize**，单数化：
+
+```go
+{{ "cats" | singularize }}
+// => "cat"
+```
+
+**slicestr**，第一个参数指定起始位置，第二个参数指定结束位置，切分字符串：
+
+```go
+{{slicestr "BatMan" 3}} 
+// => “Man”
+{{slicestr "BatMan" 0 3}} 
+// => “Bat”
+```
+
+**split**，讲数组转换为字符串：
+
+```go
+{{split "tag1,tag2,tag3" "," }}
+// =>  [“tag1” “tag2” “tag3”]
+```
+
+**string**，字符串化：
+
+```go
+{{ string "BatMan" }}
+// => "BatMan"
+```
+
+**substr**，第一个参数是起始位置，第二个参数是切分长度，用于切分字符串：
+
+```go
+{{substr "BatMan" 3 3}}
+// => "Man"
+```
+
+**hasPrefix**，判断是否有前缀：
+
+```go
+{{ hasPrefix "Hugo" "Hu" }} 
+// => true
+```
+
+**title**，将字符串标题化：
+
+```go
+{{title "BatMan"}} 
+// => “Batman”
+```
+
+**trim**，去除字符串头部或尾部的某些字符：
+
+```go
+{{ trim "++Batman--" "+-" }}
+// =>  “Batman”
+```
+
+**upper**，转换为大写：
+
+```go
+{{upper "BatMan"}}
+// => “BATMAN”
+```
+
+**countwords**，计算字符数量：
+
+```go
+{{ "Hugo is a static site generator." | countwords }}
+// outputs a content length of 6 words. 
+```
+
+**countrunes**，计算字符数量，对中日韩语言友好：
+
+```go
+{{ "Hello, 世界" | countrunes }}
+// => outputs a content length of 8 runes.
+```
+
+**md5 / sha1 / sha256**，加密：
+
+```go
+{{ md5 "Hello world, gophers!" }}
+// => "b3029f756f98f79e7f1b7f1d1f0dd53b"
+
+{{ sha1 "Hello world, gophers!" }}
+// => "c8b5b0e33d408246e30f53e32b8f7627a7a649d4"
+
+{{ sha256 "Hello world, gophers!" }}
+// => "6ec43b78da9669f50e4e422575c54bf87536954ccd58280219c393f2ce352b46"
+```
+
+**i18n**，国际化。
+
+**time**，格式化时间：
+
+- {{ time "2016-05-28" }} → “2016-05-28T00:00:00Z”
+- {{ (time "2016-05-28").YearDay }} → 149
+- {{ mul 1000 (time "2016-05-28T10:30:00.00+10:00").Unix }} → 1464395400000 (Unix time in milliseconds)
+
+**absLangURL, relLangRUL**，获取绝对路径和相对路径，该方法和 `absURL, relURL` 相似，但是能够正确添加语言链接：
+
+```go
+{{ "blog/" | absLangURL }}
+// => “http://mysite.com/hugo/en/blog/"
+
+{{ "blog/" | relLangURL }}
+// => “/hugo/en/blog/”
+```
+
+**ref, relref**，获取绝对路径或相对路径：
+
+```go
+{{ ref . “about.md” }}
+```
+
+**safeURL**，保证地址是安全：
+
+```go
+[[menu.main]]
+    name = "IRC: #golang at freenode"
+    url = "irc://irc.freenode.net/#golang"
+
+<ul class="sidebar-menu">
+  {{ range .Site.Menus.main }}
+  <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+  {{ end }}
+</ul>
+// => <li><a href="#ZgotmplZ">IRC: #golang at freenode</a></li>
+
+// fix it
+<li><a href="{{ .URL | safeURL }}">{{ .Name }}</a></li>
+```
+
+**urlize**，讲字符串转换为链接，字符串中的空格会被转换为 `-`：
+
+```go
+<a href="/tags/{{ . | urlize }}">{{ . }}</a>
+```
+
+**querify**，创建查询字符串：
+
+```go
+<a href="https://www.google.com?{{ (querify "q" "test" "page" 3) | safeURL }}">Search</a>
+// => <a href="https://www.google.com?page=3&q=test">Search</a>
+```
+
+**render**，引用模版渲染模块。
+
+**apply**，第一个参数待操作的数据，第二个参数是操作数据的函数，第三个参数是遍历元素：
+
+```go
++++
+names: [ "Derek Perkins", "Joe Bergevin", "Tanner Linsley" ]
++++
+
+{{ apply .Params.names "urlize" "." }} 
+// => [ "derek-perkins", "joe-bergevin", "tanner-linsley" ]
+
+// 等同于
+{{ range .Params.names }}
+    {{ . | urlize }}
+{{ end }}
+```
+
+**base64Encode, base64Decode**：
+
+```go
+{{ "Hello world" | base64Encode }}
+// => "SGVsbG8gd29ybGQ="
+
+{{ "SGVsbG8gd29ybGQ=" | base64Decode }}
+// => "Hello world"
+```
+
+**.Site.GetPage**，获取 index 页面：
+
+```go
+{{ with .Site.GetPage "section" "blog" }}
+    {{ .Title }}
+{{ end }}
+```
+
+## 变量
+
+**Page 变量**
+
+- `.Content`，页面内容
+- `.Data`，
+- `.Date`，
+- `.Description`，
+
+**Site 变量**
+
+通过 `.Site` 获取以下变量：
+
+- `.Site.BaseURL`，
+- `.Site.RSSLink`，
+- `.Site.Taxonomies`，
+- `.Site.Pages`，
+- `.Site.AllPages`，
+- `.Site.Params`，
+- `.Site.Sections`，
+- `.Site.Files`，
+- `.Site.Menus`，
+- `.Site.Tile`，
+- `.Site.Author`，
+- `.Site.LanguageCode`，
+- `.Site.DisqusShortname`，
+- `.Site.GoogleAnalytics`，
+- `.Site.Copyright`，
+- `.Site.Permalinks`，
+- `.Site.BuildDrafts`，
+- `.Site.Data`，
+- `.Site.IsMultiLingual`，
+- `.Site.Language`，
+- `.Site.Language.Lang`，
+- `.Site.Language.Weight`，
+- `.Site.LanguagePrefix`，
+- `.Site.Languages`，
+- `.Site.RegularPages`，
+
+**File 变量**
+
+`.File` 变量为你提供了有关页面的额外信息：
+
+- `.File.Path`，文章的原始路径，比如 `content/posts/foo.en.md`
+- `.File.LogicalName`，文章名称，比如 `foo.en.md`
+- `.File.TranslationBaseName`，不包括扩展名和语言名称的文件名，比如 `foo`
+- `.File.Ext, .File.Extension`，文章的扩展名，比如 `md`
+- `.File.Lang`，文章的语言类型，比如 `en`
+- `.File.Dir`，文章所处的目录，比如 `content/posts/dir1/dir2/`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
