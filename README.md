@@ -330,6 +330,122 @@ linkedin = "lien-francais"
 
 ## Templates
 
+Hugo 默认使用 Go html/template 库作为模版引擎。变量、函数和参数需要置于双大括号之间并以空格分割：
+
+```go
+{{ add 1 2 }}
+
+{{ .Params.bar }}
+
+{{ if or (isset .Params "alt") (isset .Params "caption") }} Caption {{ end }}
+
+{{ $address := "123abc" }}
+```
+
+如果想引用某个模版并传递参数，可以使用如下方式，切记不要遗漏最后的 `.`：
+
+```go
+{{ partial "header.html" . }}
+```
+
+使用 range 函数进行迭代和遍历：
+
+```go
+{{range $index, $element := array}}
+    {{ $index }}
+    {{ $element }}
+{{ end }}
+```
+
+if/else/with/or/and 是 Go 中的条件语句关键字，和 range 类似，需要使用 end 显式声明结束：
+
+```go
+{{ if isset .Params "alt" }}
+    {{ index .Params "alt" }}
+{{ else if isset .Params "caption" }}
+    {{ index .Params "caption" }}
+{{ end }}
+
+{{ if and (or (isset .Params "title") (isset .Params "caption")) (isset .Params "attr")}}
+```
+
+在 Go 语言中，以下数据属于假值：
+
+- false
+- 0
+- 空数组、分片、字符串等
+
+Go 模板引擎的一个强大功能就是实现了类似 Unix 的管道符，比如：
+
+```go
+{{ shuffle (seq 1 5) }}
+
+// 可以改写成
+{{ (seq 1 5) | shuffle }}
+
+{{ if or (or (isset .Params "title") (isset .Params "caption")) (isset .Params "attr") }}
+Stuff Here
+{{ end }}
+
+// 可以改写成
+{{ if isset .Params "caption" | or isset .Params "title" | or isset .Params "attr" }}
+Stuff Here
+{{ end }}
+```
+
+如果你想获取上下文对象，可以直接使用 `{{ . }}`，这里的点会一直引用当前上下文。如果是在模版的顶层，那么它是一组可用的数据；如果是在一个遍历过程中，那么它是当前遍历到的数据。那么如果要在遍历中引用顶层对象，就需要为顶层对象设置一个变量：
+
+```go
+{{ $title := .Site.Title }}
+{{ range .Params.tags }}
+  <li>
+    <a href="{{ $baseURL }}/tags/{{ . | urlize }}">{{ . }}</a>
+    - {{ $title }}
+  </li>
+{{ end }}
+```
+
+或者使用 `$.`，该变量总是可以引用全局上下文：
+
+```go
+{{ range .Params.tags }}
+  <li>
+    <a href="{{ $baseURL }}/tags/{{ . | urlize }}">{{ . }}</a>
+    - {{ $.Site.Title }}
+  </li>
+{{ end }}
+```
+
+默认情况下，Go 模版引擎会保留换行和空格，比如：
+
+```go
+<div>
+  {{ .Title }}
+</div>
+
+// 生成结果
+<div>
+  Hello, World!
+</div>
+```
+
+如果想去除空白字符，使用如下方式：
+
+```go
+<div>
+  {{- .Title -}}
+</div>
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
