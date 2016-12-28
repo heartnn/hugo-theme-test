@@ -1030,40 +1030,111 @@ names: [ "Derek Perkins", "Joe Bergevin", "Tanner Linsley" ]
 
 **Page 变量**
 
-- `.Content`，页面内容
-- `.Data`，
-- `.Date`，
-- `.Description`，
+- `.Content`，页面内容，位于头信息以下的内容
+- `.Data`，用于特定类型页面的 Data 数据
+- `.Date`，日期
+- `.Description`，页面描述
+- `.Draft`，是否是草稿
+- `.ExpiryDate`，过期时间
+- `.FuzzyWordCount`，文章字数，考虑中日韩字符
+- `.Hugo`，Hugo 变量
+- `.IsHome`，是否是主页
+- `.IsNode`，对于内容页，该变量总为 false
+- `.IsPage`，对于内容页，该变量总为 true
+- `.IsTranslated`，是否有翻译版本
+- `.Keywords`，关键字
+- `.Kind`，页面类型：page/home/section/taxonomy/taxonomyTerm
+- `.Lang`，
+- `.Language`，
+- `.Lastmod`，上次修改时间
+- `.LinkTitle`，如果头信息中有 'linktitle'，则使用该字段，否则指向 title 字段
+- `.Next`，下一篇文章（默认根据发布日期排序）
+- `.NextInSection`，
+- `.Pages`，一系列相关联的文章，对于常规内容也是 nil，其别名是 .Data.Pages
+- `.Permalink`，永久链接
+- `.Prev`，前一篇文章
+- `.PrevInSection`，
+- `.PublishDate`，发布日期
+- `.RSSLink`，rss 链接
+- `.RawContent`，原始 markdown 内容，没有头信息
+- `.ReadingTime`，预估的阅读时长
+- `.Ref`，根据相对路径返回永久链接
+- `.RelPermalink`，相对永久链接
+- `.RelRef`，
+- `.Section`，section 类型
+- `.Site`，Site 变量
+- `.Summary`，摘要
+- `.TableOfContents`，目录
+- `.Title`，标题
+- `.Translations`，多语言版本列表
+- `.Truncated`，摘要之后是否还有内容
+- `.Type`，页面 type
+- `.URL`，相对地址
+- `.UniqueID`，根据页面文件名生成的 MD5
+- `.Weight`，权重
+- `.WordCount`，页面文字长度
+
+**Page 参数**
+
+除 Hugo 预定义的头信息，其他自定义的头信息都可以通过 `.Params` 获取到，比如：
+
+- `.Params.tags`
+- `.Params.categories`
+
+所有的变量只能是小写字母
+
+**Taxonomy Terms 页面变量**
+
+- `.Data.Singular`，分类的单数形式
+- `.Data.Plural`，分类的复数形式
+- `.Data.Pages`，所有分类页面的数组
+- `.Data.Terms`，分类本身
+- `.Data.Terms.Alphabetical`，按字母排序的分类
+- `.Data.Terms.Alphabetical.Reverse`，按字母反序排列的分类
+- `.Data.ByCount`，按欢迎程度排序的分类
+- `.Data.ByCount.Reverse`，按字母反序排列的分类
+- `.Site.Taxonomies`，整个网站定义的所有分类
+- `.Site.Taxonomies.tags`，所有分类的标签
 
 **Site 变量**
 
 通过 `.Site` 获取以下变量：
 
-- `.Site.BaseURL`，
-- `.Site.RSSLink`，
-- `.Site.Taxonomies`，
-- `.Site.Pages`，
-- `.Site.AllPages`，
-- `.Site.Params`，
+- `.Site.BaseURL`，基准地址
+- `.Site.RSSLink`，rss 地址
+- `.Site.Taxonomies`，整个网站的分类
+- `.Site.Pages`，根据日期排序的所有内容页，数组形式
+- `.Site.AllPages`，所有页面，不包括翻译版本的页面
+- `.Site.Params`，config.toml 文件中 `[params]` 以下定义的变来那个
+
+```toml
+baseURL = "http://yoursite.example.com/"
+
+[params]
+  description = "Tesla's Awesome Hugo Site"
+  author = "Nikola Tesla"
+```
+
 - `.Site.Sections`，
-- `.Site.Files`，
-- `.Site.Menus`，
-- `.Site.Tile`，
-- `.Site.Author`，
-- `.Site.LanguageCode`，
-- `.Site.DisqusShortname`，
-- `.Site.GoogleAnalytics`，
-- `.Site.Copyright`，
-- `.Site.Permalinks`，
-- `.Site.BuildDrafts`，
-- `.Site.Data`，
-- `.Site.IsMultiLingual`，
-- `.Site.Language`，
-- `.Site.Language.Lang`，
-- `.Site.Language.Weight`，
-- `.Site.LanguagePrefix`，
-- `.Site.Languages`，
-- `.Site.RegularPages`，
+- `.Site.Files`，网站的所有源文件
+- `.Site.Menus`，所有的菜单
+- `.Site.Tile`，标题
+- `.Site.Author`，作者
+- `.Site.LanguageCode`，语言代码
+- `.Site.DisqusShortname`，disqus id
+- `.Site.GoogleAnalytics`，google analytics id
+- `.Site.Copyright`，版权信息
+- `.Site.Permalinks`，网站最新更改时间
+- `.Site.BuildDrafts`，是否编译草稿
+- `.Site.Data`，自定义的 Data
+- `.Site.IsMultiLingual`，是否存在多语言文章
+- `.Site.Language`，当前语言类型
+- `.Site.Language.Lang`，当前语言对语言代码
+- `.Site.Language.Weight`，当前语言的权重
+- `.Site.Language.LanguageName`，当前语言的名称
+- `.Site.LanguagePrefix`，语言前缀
+- `.Site.Languages`，所有语言
+- `.Site.RegularPages`，常规页面集合的简写，相当于 `where .Site.Pages "Kind" "page"`
 
 **File 变量**
 
@@ -1076,7 +1147,12 @@ names: [ "Derek Perkins", "Joe Bergevin", "Tanner Linsley" ]
 - `.File.Lang`，文章的语言类型，比如 `en`
 - `.File.Dir`，文章所处的目录，比如 `content/posts/dir1/dir2/`
 
+**Hugo 变量**
 
+- `Hugo.Generator`，Hugo 生成器信息
+- `Hugo.Version`，Hugo 版本
+- `Hugo.CommitHash`，当前版本 Hugo 的 commit hash 值
+- `Hugo.BuildDate`，当前版本 Hugo 的构建时间
 
 
 
