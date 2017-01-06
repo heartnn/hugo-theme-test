@@ -1154,26 +1154,263 @@ baseURL = "http://yoursite.example.com/"
 - `Hugo.CommitHash`，当前版本 Hugo 的 commit hash 值
 - `Hugo.BuildDate`，当前版本 Hugo 的构建时间
 
+## 文章列表
 
+```go
+{{ partial "header.html" . }}
+{{ partial "subheader.html" . }}
 
+<section id="main">
+  <div>
+   <h1 id="title">{{ .Title }}</h1>
+        <ul id="list">
+            {{ range .Data.Pages }}
+                {{ .Render "li"}}
+            {{ end }}
+        </ul>
+  </div>
+</section>
 
+{{ partial "footer.html" . }}
+```
 
+排序方式：
 
+- `{{ range .Data.Pages }}`，默认根据 weight 和日期排序
+- `{{ range .Data.Pages.ByWeight }}`，根据 weight 排序
+- `{{ range .Data.Pages.ByDate }}`，根据编写日期排序
+- `{{ range .Data.Pages.ByPublishDate }}`，根据发布日期排序
+- `{{ range .Data.Pages.ExpiryDate }}`，根据过期时间排序
+- `{{ range .Data.Pages.Lastmod }}`，根据最新修改时间排序
+- `{{ range .Data.Pages.Length }}`，根据文章长度排序
+- `{{ range .Data.Pages.Title }}`，根据文章名称排序
+- `{{ range .Data.Pages.LinkTitle }}`，根据链接名称排序
 
+以上排序方法都可以加上 `.Reverse` 进行反向排序，比如 `.Data.Pages.ByDate`。
 
+Hugo 还提供了聚合某些文章的功能：
 
+```go
+{{ range .Data.Pages.GroupBy "Section" }}
+<h3>{{ .Key }}</h3>
+<ul>
+    {{ range .Pages }}
+    <li>
+    <a href="{{ .Permalink }}">{{ .Title }}</a>
+    <div class="meta">{{ .Date.Format "Mon, Jan 2, 2006" }}</div>
+    </li>
+    {{ end }}
+</ul>
+{{ end }}
+```
 
+- `{{ range .Data.Pages.GroupByDate "2006-01" }}`，根据编写日期
+- `{{ range .Data.Pages.GroupByPublishDate "2006-01" }}`，根据发布日期
+- `{{ range .Data.Pages.GroupByParam "param_key" }}`，根据头信息参数
+- `{{ range .Data.Pages.GroupByParamDate "param_key" "2006-01" }}`，根据头信息中日期的参数
 
+如果要对上面的列表实现反向排序，使用 `{{ range (.Data.Pages.GroupBy "Section").Reverse }}`。
 
+使用 `first` 和 `where` 语法，我们还可以进行特定的筛选，比如取出 Section 为 post 的前十篇文章：
 
+```go
+{{ range first 5 (where .Data.Pages "Section" "post") }}
+   {{ .Content }}
+{{ end }}
+```
 
+## Template
 
+Hugo 支持定义模版：
 
+```go
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>
+        {{ block "title" . }}
+            {{ .Site.Title }}
+        {{ end }}
+    </title>
+  </head>
+  <body>
+    {{ block "main" . }}
+    {{ end }}
+  </body>
+</html>
+```
 
+使用时，通过 define 进行重写：
 
+```go
+{{ define "title" }}
+    {{ .Title }} &ndash; {{ .Site.Title }}
+{{ end }}
+{{ define "main" }}
+    <h1>{{ .Title }}</h1>
+    {{ .Content }}
+{{ end }}
+```
 
+Hugo 查找模版的路径：
 
+- `/themes/theme-name/layouts/section/post-baseof.html`
+- `/themes/theme-name/layouts/section/baseof.html`
+- `/themes/theme-name/layouts/_default/post-baseof.html`
+- `/themes/theme-name/layouts/_default/baseof.html`
 
+除了定义模版，我们还可以引入模版块。Hugo 可以查找位于 `/layout/partials` 和类似 `/layout/partials/post/tag` 的位置查找模版，使用方式：
+
+```go
+{{ partial "post/tag/list" . }}
+```
+
+## SEO
+
+在页面头信息中引用 RSS：
+
+```go
+{{ if .RSSLink }}
+    <link href="{{ .RSSLink }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
+    <link href="{{ .RSSLink }}" rel="feed" type="application/rss+xml" title="{{ .Site.Title }}" />
+{{ end }}
+```
+
+在 config.toml 配置 sitemap.xml:
+
+```go
+[sitemap]
+    changefreq = "monthly"
+    priority = 0.5
+    filename = "sitemap.xml"
+```
+
+创建 404 页面，需要在 `/layouts/` 下创建一个 404.html，该页面可以使用 `.Data.Pages` 变量和 `.Page` 变量：
+
+```go
+{{ partial "header.html" . }}
+{{ partial "subheader.html" . }}
+
+<section id="main">
+  <div>
+   <h1 id="title">{{ .Title }}</h1>
+  </div>
+</section>
+
+{{ partial "footer.html" . }}
+```
+
+## Debug
+
+使用内置函数 `prinf` 函数进行调试：
+
+- `{{ printf "%#v" $.Site }}`，查看 `.Site` 包含的所有值
+- `{{ printf "%#v" .Permalink }}`，查看 `.Permalink` 的值
+- `{{ printf "%#v" . }}`，查看上下文的所有值
+
+## Data
+
+`mytheme/data` 中存放自定义的数据，支持 yml / json / toml 文件格式，比如 `data/jazz/bass/jacopastorius.toml`：
+
+```toml
+discography = [
+"1974 – Modern American Music … Period! The Criteria Sessions",
+"1974 – Jaco",
+"1976 - Jaco Pastorius",
+"1981 - Word of Mouth",
+"1981 - The Birthday Concert (released in 1995)",
+"1982 - Twins I & II (released in 1999)",
+"1983 - Invitation",
+"1986 - Broadway Blues (released in 1998)",
+"1986 - Honestly Solo Live (released in 1990)",
+"1986 - Live In Italy (released in 1991)",
+"1986 - Heavy'n Jazz (released in 1992)",
+"1991 - Live In New York City, Volumes 1-7.",
+"1999 - Rare Collection (compilation)",
+"2003 - Punk Jazz: The Jaco Pastorius Anthology (compilation)",
+"2007 - The Essential Jaco Pastorius (compilation)"
+]
+```
+
+在模版中使用：
+
+```html
+<ul>
+{{ range $.Site.Data.jazz.bass.discography }}
+  <li>{{ . }}</li>
+{{ end }}
+</ul>
+```
+
+对于 JSON 数据，可以通过以下方式获取：
+
+```go
+<ul>
+  {{ $urlPre := "https://api.github.com" }}
+  {{ $gistJ := getJSON $urlPre "/users/GITHUB_USERNAME/gists" }}
+  {{ range first 5 $gistJ }}
+    {{ if .public }}
+      <li><a href="{{ .html_url }}" target="_blank">{{ .description }}</a></li>
+    {{ end }}
+  {{ end }}
+</ul>
+```
+
+## GitInfo
+
+http://gohugo.io/extras/gitinfo/
+
+## 永久链接格式
+
+```toml
+permalinks:
+  post: /:year/:month/:title/
+```
+
+可用属性：
+
+- `:year`，4 位数的年份
+- `:month`，2 位数的月份
+- `:monthname`，月份名称
+- `:day`，2 位数的日期
+- `:weekday`，1 位数的日期
+- `:weekdayname`，天名
+- `:yearday`，the 1- to 3-digit day of the year
+- `:section`
+- `:title`
+- `:slug`
+- `:filename`
+
+## TOC
+
+{{ partial "header.html" . }}
+    <div id="toc" class="well col-md-4 col-sm-6">
+    {{ .TableOfContents }}
+    </div>
+    <h1>{{ .Title }}</h1>
+    {{ .Content }}
+{{ partial "footer.html" . }}
+
+## 获取本地文件信息
+
+http://gohugo.io/extras/localfiles/
+
+## shortcodes
+
+http://gohugo.io/extras/shortcodes/
+
+## 分页 
+
+http://gohugo.io/extras/pagination/
+
+## Menus
+
+http://gohugo.io/extras/menus/
+
+## Pretty URL 
+
+http://gohugo.io/extras/urls/
 
 
 
