@@ -1,0 +1,13 @@
+# See https://github.com/spf13/hugoThemes#themetoml for an example
+name = "hugo-theme-dido"
+license = "MIT"
+licenselink = "https://github.com/pinggod/hugo-theme-dido/blob/master/LICENSE.md"
+description = "a clean, delicate and seo-friendly hugo theme inspired by many outstanding works"
+homepage = "https://github.com/pinggod/hugo-theme-dido"
+tags = ["blog", "doc"]
+features = ["lightweight", "seo-friendly", "clean", "responsive", "thumbnail"]
+min_version = 0.17
+
+[author]
+    name = "@pinggod<pinggodstuido@gmail.com>"
+    homepage = "http://pinggod.com"

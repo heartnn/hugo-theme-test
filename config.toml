@@ -19,7 +19,7 @@ paginatePath = 'page'
 # 性能信息
 stepAnalysis = true
 # 使用的主题名
-theme = "hugo-theme-dido"
+theme = "dido-hugo"
 # 网站标题
 title = 'Pinggod · VENI VIDI VICI'
 # 自动检测中日韩（CJK，Chinese / Japanese / Korean）语言
@@ -38,9 +38,9 @@ verbose = true
     abc = '一二三'
 
 [taxonomies]
-    category = "categories"
     tag = "tags"
     series = "series"
+    category = "categories"
 
 # 其他参数
 [params]

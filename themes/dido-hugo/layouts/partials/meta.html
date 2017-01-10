@@ -1,0 +1,42 @@
+<meta charset="UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{{ if .IsHome }} 
+    <title>{{ .Site.Title }}</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ .Site.Title }}">
+    <meta property="description" content="{{ .Site.Params.description }}">
+    <meta property="og:description" content="{{ .Site.Params.description }}">
+{{ else if .IsNode }}
+    <title>{{ .Title }} - {{ .Site.Title }}</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ .Title }} - {{ .Site.Title }}">
+    <meta property="description" content="{{ .Data.Plural }} - {{ .Site.Params.description }}">
+    <meta property="og:description" content="{{ .Data.Plural }} - {{ .Site.Params.description }}">
+{{ else if .IsPage }}
+    <title>{{ .Title }} - {{ .Site.Title }}</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ .Title }} - {{ .Site.Title }}">
+    <meta property="description" content="{{ .Description }}">
+    <meta property="og:description" content="{{ .Description }}">
+{{ end }}
+
+{{ if .Keywords }} 
+    {{ $content := delimit .Keywords ", " }}
+    <meta property="keywords" content="{{ $content }}">
+{{ end }}
+
+{{ if .RSSLink }}
+    <link title="RSS - {{ .Site.Title }}" href="{{ .RSSLink }}" rel="alternate" type="application/rss+xml">
+{{ end }}
+
+<link rel="canonical" href="{{ .Permalink }}">
+<link rel="icon" href="{{ .Site.BaseURL }}img/favicon.png">
+<link rel="stylesheet" href="{{ .Site.BaseURL }}css/index.css">
+
+<script>
+console.log(".IsHome: ", {{ .IsHome }});
+console.log(".IsNode: ", {{ .IsNode }});
+console.log(".IsPage: ", {{ .IsPage }});
+</script>

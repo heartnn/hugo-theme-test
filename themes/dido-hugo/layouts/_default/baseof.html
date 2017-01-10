@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang={{ .Site.LanguageCode }}>
+<head>
+    {{ partial "meta.html" . }}
+</head>
+<body>
+    {{ partial "header.html" . }}
+
+    {{ if .IsHome }}
+        <div class="main home">{{ block "main" . }}{{ end }}</div>
+    {{ else if .IsNode }}
+        <div class="main node">{{ block "main" . }}{{ end }}</div>
+    {{ else if .IsPage }}
+        <div class="main page">{{ block "main" . }}{{ end }}</div>
+    {{ end }}
+    
+    {{ partial "footer.html" . }}
+</body>
+</html>

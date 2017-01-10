@@ -1,0 +1,32 @@
+{
+  "name": "hugo-theme-dido",
+  "version": "0.1.0",
+  "description": "a clean, delicate and seo-friendly hugo theme inspired by many outstanding works",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pinggod/hugo-theme-dido.git"
+  },
+  "keywords": [
+    "hugo",
+    "theme",
+    "clean",
+    "delicate",
+    "seo-friendly"
+  ],
+  "author": "@pinggod <pinggodstudio@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pinggod/hugo-theme-dido/issues"
+  },
+  "homepage": "https://github.com/pinggod/hugo-theme-dido#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^2.2.0"
+  }
+}

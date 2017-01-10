@@ -1,0 +1,11 @@
+{{ define "main" }}
+    {{ range first 10 .Data.Pages }}
+        <div class="summary">
+            <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+            {{ .Summary }}
+        </div>
+        <div class="read-more-link">
+            <a href="{{ .RelPermalink }}">read more ...</a>
+        </div>
+    {{ end }}
+{{ end }}

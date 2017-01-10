@@ -1,0 +1,1 @@
+a clean, delicate and seo-friendly hugo theme inspired by many outstanding works
