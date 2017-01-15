@@ -1,4 +1,3 @@
-// Color
 $gold: #B59758;
 $gray: #757575;
 $milk: #F1F1F1;
@@ -7,9 +6,9 @@ $logo-color: $gold;
 $menu-color: $gray;
 
 // Font
-$logo: 'Damion';
-$menu: 'Roboto';
-$code: 'Fira Mono';
+$logo: 'damion';
+$menu: 'roboto';
+$code: 'fira mono';
 $content: 'source sans pro';
 
 // $font-set: 'sans-serif';

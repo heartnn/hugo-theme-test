@@ -1,19 +1,34 @@
 var gulp = require('gulp');
-var sass = require('gulp-sass');
+var postcss = require('gulp-postcss');
 var sourcemaps = require('gulp-sourcemaps');
-var autoprefixer = require('gulp-autoprefixer');
+var del = require('del');
 
-// 一次性编译
-gulp.task('sass:build', function() {
-    return gulp.src('static/scss/index.scss')
+var paths = {
+    postcss: 'static/postcss/index.css',
+    postcssdest: 'static/postcss',
+    css: 'static/css/index.css',
+    cssdest: 'static/css',
+    cssmin: 'static/css/index.min.css'
+};
+
+gulp.task('clean', function () {
+    return del(['static/css', 'npm-debug.log']);
+});
+
+gulp.task('compile', function () {
+    return gulp.src(paths.postcss)
         .pipe(sourcemaps.init())
-        .pipe(sass({outputStyle: 'compressed'}))
-        .pipe(autoprefixer())
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('static/css'));
+        .pipe(postcss([
+            require('precss')({}),
+            require('autoprefixer')({})
+        ]))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(paths.cssdest));
 });
 
-// 实时编译
-gulp.task('sass:watch', ['sass:build'], function() {
-    gulp.watch('static/scss/**/*.scss', ['sass:build']);
+gulp.task('watch', function () {
+    gulp.watch('static/postcss/**/*.css', ['clean', 'compile']);
 });
+
+gulp.task('build', ['clean', 'compile']);
+gulp.task('dev', ['clean', 'compile', 'watch']);
