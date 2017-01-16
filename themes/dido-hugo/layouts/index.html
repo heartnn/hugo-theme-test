@@ -1,5 +1,6 @@
 {{ define "main" }}
-    {{ range first 10 .Data.Pages }}
+    {{ $paginator := .Paginate ( where .Data.Pages "Section" "post") }}
+    {{ range $paginator.Pages }}
         <div class="summary">
             <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
             {{ .Summary }}
@@ -8,4 +9,6 @@
             <a href="{{ .RelPermalink }}">read more ...</a>
         </div>
     {{ end }}
+
+    {{ partial "home-pagination.html" . }}
 {{ end }}

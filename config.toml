@@ -8,16 +8,14 @@ DefaultContentLanguage = 'zh'
 enableRobotsTXT = true
 # 谷歌分析用户 ID
 googleAnalytics = ''
-# 忽略使用以下扩展名的文件
-ignoreFiles = ['\\.scss$']
+# 指定编译时忽略的文件
+ignoreFiles = ["postcss"]
 # 页面语言类型
 languageCode = "zh-CN"
 # 每页数量
-paginate = 10
+paginate = 5
 # 分页目录
 paginatePath = 'page'
-# 性能信息
-stepAnalysis = true
 # 使用的主题名
 theme = "dido-hugo"
 # 网站标题
@@ -28,8 +26,8 @@ hasCJKLanguage = true
 verbose = true
 
 # 永久链接格式
-# [permalinks]
-#     post = '/:year/:title/'
+[permalinks]
+     post = '/:year/:title/'
 
 [Languages]
 [Languages.en]

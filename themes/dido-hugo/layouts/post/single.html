@@ -1,3 +1,4 @@
-{{ if .IsTranslated }}
-<h1>{{ i18n "home" }}</h1>
+{{ define "main" }}
+    <h1 class="entry-title">{{ .Title }}</h1>
+    <p>{{ .Content }}</p>
 {{ end }}
