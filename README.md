@@ -16,9 +16,9 @@ hugo new site blog
 初始化后的静态网站主要有以下文件和目录：
 
 - archetypes: 文章模版
-- config.toml: 博客的配置文件 
+- config.toml: 博客的配置文件
 - content: 存放博客文章的目录
-- data: 
+- data:
 - layouts: 网站模版
 - static: 静态资源
 - i8n: 国际化方案
@@ -149,7 +149,7 @@ logFile:                    ""
 # 元数据的扩展名："yaml", "toml", "json"
 metaDataFormat:             "toml"
 newContentEditor:           ""
-# 是否禁用同步文件的权限信息 
+# 是否禁用同步文件的权限信息
 noChmod:                    false
 # 是否禁用同步文件的修改事件
 noTimes:                    false
@@ -459,9 +459,9 @@ Stuff Here
 **default**，判断是否有值，没有则提供一个默认值：
 
 ```go
-{{ index .Params "font" | default "Roboto" }} 
+{{ index .Params "font" | default "Roboto" }}
 
-{{ default "Roboto" (index .Params "font") }} 
+{{ default "Roboto" (index .Params "font") }}
 ```
 
 **delimit**，遍历数组并返回一个字符串，字符串的内容就是数组元素，数组元素之间以指定分隔符相连：
@@ -469,7 +469,7 @@ Stuff Here
 ```go
 // +++
 // tags: [ "tag1", "tag2", "tag3" ]
-// +++ 
+// +++
 
 {{ delimit .Params.tags "," }}
 // => "tag1, tag2, tag3"
@@ -495,7 +495,7 @@ Important {{.important}}
 
 ```go
 {{ delimit (slice "foo" "bar" "buzz") ", " }}
-// returns the string "foo, bar, buzz" 
+// returns the string "foo, bar, buzz"
 ```
 
 **shuffle**，返回一个随机序列的数组：
@@ -579,7 +579,7 @@ Follow me on GitHub!
 **isset**，检查是否设置了某个参数：
 
 ```go
-{{ if isset .Params "project_url" }} 
+{{ if isset .Params "project_url" }}
     {{ index .Params "project_url" }}
 {{ end }}
 ```
@@ -726,7 +726,7 @@ series: golang
 **htmlEscape**，对特殊字符进行转义，除非内容经过 `safeHTML` 函数处理，否则都会被模版引擎转义：
 
 ```go
-{{ htmlEscape "Hugo & Caddy > Wordpress & Apache" }} 
+{{ htmlEscape "Hugo & Caddy > Wordpress & Apache" }}
 // => "Hugo &amp; Caddy &gt; Wordpress &amp; Apache"
 ```
 
@@ -735,13 +735,13 @@ series: golang
 **humanize**，返回人类可读的格式：
 
 ```go
-{{humanize "my-first-post"}} 
+{{humanize "my-first-post"}}
 // => "My first post"
-{{humanize "myCamelPost"}} 
+{{humanize "myCamelPost"}}
 // => "My camel post"
-{{humanize "52"}} 
+{{humanize "52"}}
 // => "52nd"
-{{humanize 103}} 
+{{humanize 103}}
 // => "103rd"
 ```
 
@@ -763,7 +763,7 @@ series: golang
 **pluralize**，复数化：
 
 ```go
-{{ "cat" | pluralize }} 
+{{ "cat" | pluralize }}
 // => “cats”
 ```
 
@@ -853,9 +853,9 @@ series: golang
 **slicestr**，第一个参数指定起始位置，第二个参数指定结束位置，切分字符串：
 
 ```go
-{{slicestr "BatMan" 3}} 
+{{slicestr "BatMan" 3}}
 // => “Man”
-{{slicestr "BatMan" 0 3}} 
+{{slicestr "BatMan" 0 3}}
 // => “Bat”
 ```
 
@@ -883,14 +883,14 @@ series: golang
 **hasPrefix**，判断是否有前缀：
 
 ```go
-{{ hasPrefix "Hugo" "Hu" }} 
+{{ hasPrefix "Hugo" "Hu" }}
 // => true
 ```
 
 **title**，将字符串标题化：
 
 ```go
-{{title "BatMan"}} 
+{{title "BatMan"}}
 // => “Batman”
 ```
 
@@ -912,7 +912,7 @@ series: golang
 
 ```go
 {{ "Hugo is a static site generator." | countwords }}
-// outputs a content length of 6 words. 
+// outputs a content length of 6 words.
 ```
 
 **countrunes**，计算字符数量，对中日韩语言友好：
@@ -999,7 +999,7 @@ series: golang
 names: [ "Derek Perkins", "Joe Bergevin", "Tanner Linsley" ]
 +++
 
-{{ apply .Params.names "urlize" "." }} 
+{{ apply .Params.names "urlize" "." }}
 // => [ "derek-perkins", "joe-bergevin", "tanner-linsley" ]
 
 // 等同于
@@ -1400,7 +1400,7 @@ http://gohugo.io/extras/localfiles/
 
 http://gohugo.io/extras/shortcodes/
 
-## 分页 
+## 分页
 
 http://gohugo.io/extras/pagination/
 
@@ -1408,122 +1408,6 @@ http://gohugo.io/extras/pagination/
 
 http://gohugo.io/extras/menus/
 
-## Pretty URL 
+## Pretty URL
 
 http://gohugo.io/extras/urls/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

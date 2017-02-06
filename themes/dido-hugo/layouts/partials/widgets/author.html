@@ -1,0 +1,24 @@
+<div class="author">
+    <img class="author-avatar" src="{{ .Site.Author.avatar }}" />
+    <div class="author-name">{{ .Site.Author.name }}</div>
+    <div class="author-job">{{ .Site.Author.job }}</div>
+    <div class="author-bio">{{ .Site.Author.bio }}</div>
+    <ul class="author-sns-list">
+        {{ range .Site.Menus.sns }}
+        <li class="author-sns-item">
+            {{ if eq .Name "wechat" }}
+            <a href="#" class="author-sns-link author-sns-wechat">
+                <i class="iconfont icon-{{ .Name }}"></i>
+                <div class="author-sns-wechat-box">
+                    <img src="{{ .URL }}" alt="">
+                </div>
+            </a>
+            {{ else }}
+            <a href="{{ .URL }}" class="author-sns-link" target="_blank">
+                <i class="iconfont icon-{{ .Name }}"></i>
+            </a>
+            {{ end }}
+        </li>
+        {{ end }}
+    </ul>
+</div>

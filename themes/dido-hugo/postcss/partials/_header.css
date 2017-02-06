@@ -1,0 +1,35 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    height: 200px;
+    line-height: 200px;
+
+    a.logo {
+        color: $color-logo;
+        font-weight: 100;
+        font-size: 26px;
+        font-family: $font-logo;
+        transition: all 0.3s ease;
+
+        &:hover {
+            color: #000;
+        }
+    }
+    ul {
+        margin-right: -15px;
+        cursor: pointer;
+    }
+    li {
+        display: inline-block;
+    }
+    a.nav-item-link {
+        padding: 30px 15px;
+        color: $color-menu;
+        font-weight: 100;
+        font-size: 16px;
+
+        &:hover, &:active, &:focus {
+            color: $color-menu-hover;
+        }
+    }
+}

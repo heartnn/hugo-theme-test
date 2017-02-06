@@ -1,4 +1,16 @@
 {{ define "main" }}
-    <h1 class="entry-title">{{ .Title }}</h1>
-    <p>{{ .Content }}</p>
+<div class="content-wrapper">
+    <article class="post">
+        <h1 class="post-title">
+            <a href="{{ .RelPermalink }}" class="post-link">
+                {{ .Title }}
+            </a>
+        </h1>
+        <p>{{ .Content }}</p>
+    </article>
+
+    {{ partial "pagination.html" . }}
+</div>
+
+    {{ partial "sidebar.html" . }}
 {{ end }}

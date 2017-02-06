@@ -1,0 +1,26 @@
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 200px;
+    color: $color-menu;
+    font-weight: 100;
+    font-size: 16px;
+    line-height: 200px;
+
+    ul {
+        margin-left: -15px;
+        cursor: pointer;
+    }
+    li {
+        display: inline-block;
+    }
+    a {
+        padding: 30px 15px;
+        color: inherit;
+
+        &:hover, &:active, &:focus {
+            color: $color-menu-hover;
+        }
+    }
+}

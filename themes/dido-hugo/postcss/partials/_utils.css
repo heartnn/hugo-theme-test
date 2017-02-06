@@ -1,0 +1,28 @@
+.iconfont {
+    color: #999;
+    font-size: 22px;
+}
+
+a:hover .icon-email {
+    color: #6C6C6C;
+}
+
+a:hover .icon-facebook {
+    color: #3B5998;
+}
+
+a:hover .icon-weibo {
+    color: #E6162D;
+}
+
+a:hover .icon-wechat {
+    color: #24BB46;
+}
+
+a:hover .icon-twitter {
+    color: #3CF;
+}
+
+a:hover .icon-github {
+    color: #333333;
+}

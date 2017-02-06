@@ -1,0 +1,17 @@
+<div class="recent">
+    <ul class="post-list">
+        {{ range first 10 (where .Site.Pages "Section" "post") }}
+        <li class="post-list-item">
+            <a href="{{ .RelPermalink}}">
+                <div class="post-title">
+                    <span class="post-list-link">{{ .Title }}</span>
+                </div>
+                <div class="post-meta">
+                    <time class="post-time">{{ .Date.Format "Jan 2, 2006" }}</time>
+                    <span class="post-word-count">{{ .WordCount }} words</span>
+                </div>
+            </a>
+        </li>
+        {{ end }}
+    </ul>
+</div>

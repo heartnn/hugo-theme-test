@@ -2,7 +2,7 @@
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-{{ if .IsHome }} 
+{{ if .IsHome }}
     <title>{{ .Site.Title }}</title>
     <meta property="og:type" content="website">
     <meta property="og:title" content="{{ .Site.Title }}">
@@ -22,7 +22,7 @@
     <meta property="og:description" content="{{ .Description }}">
 {{ end }}
 
-{{ if .Keywords }} 
+{{ if .Keywords }}
     {{ $content := delimit .Keywords ", " }}
     <meta property="keywords" content="{{ $content }}">
 {{ end }}
@@ -32,11 +32,13 @@
 {{ end }}
 
 <link rel="canonical" href="{{ .Permalink }}">
-<link rel="icon" href="{{ .Site.BaseURL }}img/favicon.png">
-<link rel="stylesheet" href="{{ .Site.BaseURL }}css/index.css">
+<link rel="icon" href="{{ .Site.BaseURL }}/img/favicon.png">
 
-<script>
-console.log(".IsHome: ", {{ .IsHome }});
-console.log(".IsNode: ", {{ .IsNode }});
-console.log(".IsPage: ", {{ .IsPage }});
-</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Damion">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_gahmqv1mno53766r.css">
+
+<link rel="stylesheet" href="{{ .Site.BaseURL }}/css/index.css">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>

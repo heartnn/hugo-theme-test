@@ -19,7 +19,7 @@ chmod u+rw /data/db
 mongod
 ```
 
-<!-- more -->
+<!--more-->
 
 Mongodb 安装完全后，在 bin 文件夹下有以下可执行程序：
 

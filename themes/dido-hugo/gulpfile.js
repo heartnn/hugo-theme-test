@@ -4,15 +4,15 @@ var sourcemaps = require('gulp-sourcemaps');
 var del = require('del');
 
 var paths = {
-    postcss: 'static/postcss/index.css',
-    postcssdest: 'static/postcss',
+    postcss: 'postcss/index.css',
+    postcssdest: 'postcss',
     css: 'static/css/index.css',
     cssdest: 'static/css',
     cssmin: 'static/css/index.min.css'
 };
 
 gulp.task('clean', function () {
-    return del(['static/css', 'npm-debug.log']);
+    return del([paths.cssdest, 'npm-debug.log']);
 });
 
 gulp.task('compile', function () {
@@ -27,7 +27,7 @@ gulp.task('compile', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('static/postcss/**/*.css', ['clean', 'compile']);
+    gulp.watch('postcss/**/*.css', ['clean', 'compile']);
 });
 
 gulp.task('build', ['clean', 'compile']);

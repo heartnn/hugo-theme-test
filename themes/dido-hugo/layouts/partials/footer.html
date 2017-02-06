@@ -1,11 +1,10 @@
-<footer class="menu-color">
-    <div class="left">
-        <ul>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Theme</a></li> 
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">License</a></li>
-        </ul>
-    </div>
-    <div class="right">© 2016 PINGGOD</div>
+<footer>
+    <ul class="misc">
+        {{ range .Site.Menus.bottom }}
+            <li>
+                <a href="{{ .URL }}">{{ .Name }}</a>
+            </li>
+        {{ end }}
+    </ul>
+    <div class="copyright">© {{ upper .Site.Title }}</div>
 </footer>

@@ -1,0 +1,27 @@
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100px;
+    line-height: 100px;
+
+    a:hover,
+    a:focus,
+    a:active {
+        color: $color-menu-hover;
+
+        & > i {
+            color: $color-menu-hover;
+        }
+    }
+    a, i {
+        color: $color-menu;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+    i {
+        margin-top: -4px;
+        vertical-align: middle;
+        font-weight: 900;
+    }
+}

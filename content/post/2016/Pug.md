@@ -18,7 +18,7 @@ ul(class="inline")
     li  Item B
 ```
 
-<!-- more -->
+<!--more-->
 
 <div class="tip">
 由于商标版权问题，Jade 已经改名为了 Pug，详见 [issue](https://github.com/pugjs/jade/issues/2184)。

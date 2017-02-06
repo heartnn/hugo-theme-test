@@ -1,0 +1,48 @@
+html, body {
+    width: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 90%;
+    transition: all 0.3s ease;
+}
+
+/*@media (min-width: 768px) {
+    body {
+        width: 750px;
+    }
+}
+
+@media (min-width: 992px) {
+    body {
+        width: 970px;
+    }
+}*/
+
+@media (min-width: 1200px) {
+    body {
+        width: 1170px;
+    }
+}
+
+@media (min-width: 1400px) {
+    body {
+        width: 1370px;
+    }
+}
+
+.main {
+    display: flex;
+    flex-direction: row;
+
+    .content-wrapper {
+        flex: 1;
+    }
+    .sidebar {
+        flex-basis: 350px;
+        margin-left: 50px;
+    }
+}

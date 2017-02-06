@@ -19,7 +19,7 @@ title="React 组件间的消息传递"
 
 ![父子组件之间的消息传递](/img/react-component-comunication.png)
 
-<!-- more -->
+<!--more-->
 
 ## 无关联组件之间的消息传递
 

@@ -43,7 +43,7 @@ title="Math Random"
 - 我们不应该忽视 V8 PRNG（pseudo-random number generator）的局限性，至少应该了解更安全的 CSPRNG（Cryptographically Secure Pseudo-Random Number Generator）
 - 当前 V8 引擎中的 `Math.random()` 存在问题
 
-<!-- more -->
+<!--more-->
 
 Betable（作者所在的公司）的业务非常依赖随机数，最常见的需求就是生成一个随机标识符，而且对这标识符有一个严格的要求：不允许生成同一个标识符两次，也就是杜绝碰撞。
 

@@ -15,7 +15,7 @@ title="PhantomJS"
 brew install phantomjs
 ```
 
-<!-- more -->
+<!--more-->
 
 ## Command Line Interface
 

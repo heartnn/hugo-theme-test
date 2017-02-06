@@ -1,0 +1,11 @@
+<div class="tags">
+    <ul class="tag-list">
+        {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+        <li class="tag-list-item">
+            <a class="tag-list-link" href="{{ $.Site.BaseURL }}tags/{{ $name | urlize | lower  }}" >
+                #{{ $name}}
+            </a>
+        </li>
+        {{ end }}
+    </ul>
+</div>

@@ -6,9 +6,8 @@
 <body>
     {{ partial "header.html" . }}
 
-    <div class="main post">
-        {{ block "main" . }}
-        {{ end }}
+    <div class="main type-{{ .Type }} kind-{{ .Kind }}">
+        {{ block "main" . }}{{ end }}
     </div>
 
     {{ partial "footer.html" . }}

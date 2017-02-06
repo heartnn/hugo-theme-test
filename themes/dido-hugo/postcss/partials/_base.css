@@ -1,15 +1,21 @@
 *,
 *:before,
 *:after {
+    outline: none;
     box-sizing: border-box;
+}
+
+body {
+    font: 14px/1.6 $font-set;
 }
 
 a {
     text-decoration: none;
 }
 
-h1 {
+h1, ul, ol {
     margin: 0;
+    padding: 0;
 }
 
 li {

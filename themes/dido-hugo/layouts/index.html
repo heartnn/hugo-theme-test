@@ -1,14 +1,49 @@
 {{ define "main" }}
-    {{ $paginator := .Paginate ( where .Data.Pages "Section" "post") }}
-    {{ range $paginator.Pages }}
-        <div class="summary">
-            <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-            {{ .Summary }}
-        </div>
-        <div class="read-more-link">
-            <a href="{{ .RelPermalink }}">read more ...</a>
-        </div>
-    {{ end }}
+    <div class="content-wrapper">
+        <div class="post-list">
+            {{ $paginator := .Paginate ( where .Data.Pages "Section" "post" ) }}
+            {{ range .Paginator.Pages }}
+            <article class="post">
+                <h2 class="post-title">
+                    <a class="post-link" href="{{ .RelPermalink }}">{{ .Title }}</a>
+                </h2>
 
-    {{ partial "home-pagination.html" . }}
+                <div class="post-meta">
+                    <time
+                        class="post-time"
+                        datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">
+                        {{ .Date.Format "Jan 2, 2006" }}
+                    </time>
+                    <ul class="post-tags-wrapper">
+                        {{ range $name :=.Params.tags }}
+                        <li class="post-tag-item">
+                            <a
+                                class="post-tag-link"
+                                href="{{ $.Site.BaseURL }}/tags/{{ $name | urlize | lower  }}">
+                                # {{ $name }}
+                            </a>
+                        </li>
+                        {{ end }}
+                    </ul>
+
+                    {{ if isset .Params "from" }}
+                        <div>原文地址：{{ .Params.from }}</div>
+                    {{ end }}
+                </div>
+
+                <div class="post-excerpt">
+                    {{ .Summary }}
+                </div>
+
+                <a class="read-more" href="{{ .RelPermalink }}">
+                    Read More
+                </a>
+            </article>
+            {{ end }}
+        </div>
+
+        {{ partial "pagination.html" . }}
+    </div>
+
+    {{ partial "sidebar.html" . }}
 {{ end }}

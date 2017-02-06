@@ -1,11 +1,14 @@
 <header>
-    <h1 class="logo">Pinggod</h1>
+    <h1 class="logo">
+        <a href="/" class="logo">{{ .Site.Title }}</a>
+    </h1>
     <ul class="nav">
-        <li class="nav-item"><a href="" class="nav-item-link">Home</a></li>
-        <li class="nav-item"><a href="" class="nav-item-link">Archive</a></li>
-        <li class="nav-item"><a href="" class="nav-item-link">Project</a></li>
-        <li class="nav-item"><a href="" class="nav-item-link">SNS</a></li>
-        <li class="nav-item"><a href="" class="nav-item-link">中文测试</a></li>
-        <li class="nav-item"><a href="" class="nav-item-link">RSS</a></li>
+        {{ range .Site.Menus.top }}
+            <li class="nav-item">
+                <a href="{{ .URL }}" class="nav-item-link">
+                    {{ .Name }}
+                </a>
+            </li>
+        {{ end }}
     </ul>
 </header>

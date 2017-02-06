@@ -13,7 +13,7 @@ title="React 组件的生命周期"
 
 ![React 组件的生命周期](/img/react-lifecycle.png)
 
-<!-- more -->
+<!--more-->
 
 在组件实例创建之初，会依序调用 `getDefaultProps()`、`getInitialState()` 方法初始化数据。在 ES6 中，可以简写为：
 

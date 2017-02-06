@@ -1,0 +1,41 @@
+<div class="pagination">
+    {{ if .IsHome }}
+        {{ if .Paginator.HasPrev }}
+            <a class="prev" href="{{ .Paginator.Prev.URL }}">
+                <i class="material-icons">arrow_back</i>
+                PREV
+            </a>
+        {{ else }}
+            <a class="prev"></a>
+        {{ end }}
+
+        {{ if .Paginator.HasNext }}
+            <a class="next" href="{{ .Paginator.Next.URL }}">
+                NEXT
+                <i class="material-icons">arrow_forward</i>
+            </a>
+        {{ else }}
+            <a class="prev"></a>
+        {{ end }}
+    {{ end }}
+
+    {{ if .IsPage }}
+        {{ if eq .Prev.Type "post" }}
+            <a class="prev" href="{{ .Prev.URL }}">
+                <i class="material-icons">arrow_back</i>
+                PREV
+            </a>
+        {{ else }}
+            <a class="prev"></a>
+        {{ end }}
+
+        {{ if eq .Next.Type "post" }}
+            <a class="next" href="{{ .Next.URL }}">
+                NEXT
+                <i class="material-icons">arrow_forward</i>
+            </a>
+        {{ else }}
+            <a class="next"></a>
+        {{ end }}
+    {{ end }}
+</div>

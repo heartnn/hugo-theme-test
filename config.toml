@@ -13,13 +13,11 @@ ignoreFiles = ["postcss"]
 # 页面语言类型
 languageCode = "zh-CN"
 # 每页数量
-paginate = 5
-# 分页目录
-paginatePath = 'page'
+paginate = 3
 # 使用的主题名
 theme = "dido-hugo"
 # 网站标题
-title = 'Pinggod · VENI VIDI VICI'
+title = 'Pinggod'
 # 自动检测中日韩（CJK，Chinese / Japanese / Korean）语言
 hasCJKLanguage = true
 # 详细的编译信息
@@ -29,21 +27,75 @@ verbose = true
 [permalinks]
      post = '/:year/:title/'
 
-[Languages]
-[Languages.en]
-    abc = 'abc'
-[Languages.zh]
-    abc = '一二三'
+# 顶部导航
+[[Menu.top]]
+    name = "Blog"
+    weight = 1
+    url = "/post/"
+[[Menu.top]]
+    name = "Tag"
+    weight = 2
+    url = "/tags/"
+[[Menu.top]]
+    name = "Category"
+    weight = 3
+    url = "/categories/"
+[[Menu.top]]
+    name = "RSS"
+    weight = 4
+    url = "/index..xml"
 
-[taxonomies]
-    tag = "tags"
-    series = "series"
-    category = "categories"
+# 底部导航
+[[Menu.bottom]]
+    name = "About"
+    weight = 1
+    url = "/about/"
+[[Menu.bottom]]
+    name = "Contact"
+    weight = 2
+    url = "/"
+[[Menu.bottom]]
+    name = "Project"
+    weight = 3
+    url = "/"
+[[Menu.bottom]]
+    name = "Licence"
+    weight = 4
+    url = "/"
+
+[[Menu.sns]]
+    name = "email"
+    weight = 1
+    url = "mailto://pinggodstudio@gmail.com"
+[[Menu.sns]]
+    name = "weibo"
+    weight = 2
+    url = "http://weibo.com/sunchongsheng"
+[[Menu.sns]]
+    name = "wechat"
+    weight = 3
+    url = "http://p1.bpimg.com/567571/e9906be310dd3d41.png"
+[[Menu.sns]]
+    name = "github"
+    weight = 4
+    url = "https://github.com/pinggod"
+# [[Menu.sns]]
+#     name = "facebook"
+#     weight = 5
+#     url = "#"
+# [[Menu.sns]]
+#     name = "twitter"
+#     weight = 6
+#     url = "#"
+
+[Author]
+    name = "@pinggod"
+    job = "Front-End Engineer at Alipay"
+    avatar = "https://avatars.githubusercontent.com/u/9530963"
+    bio = "蚂蚁金服中间件团队正在招聘前端开发工程师，简历请发 pinggodstudio@gmail.com"
 
 # 其他参数
-[params]
-    author = '@pinggod<pinggodstudio@gmail.com>'
-    description = "a personal blog used to noted life and work"
+[Params]
 
 # markdown 编译选项
 [blackfriday]
