@@ -1,6 +1,6 @@
 .sidebar {
     & > div {
-        margin-bottom: 2em;
+        margin-bottom: 1em;
     }
 
     .search {
@@ -18,6 +18,7 @@
             transition: all 0.5s ease;
 
             &:focus, &:active {
+                color: #333;
                 background-color: #FBFDFF;
             }
         }
@@ -84,7 +85,6 @@
                 left: -75px;
                 width: 200px;
                 background-color: #fff;
-                border: 1px dashed #777;
 
                 img {
                     width: 100%;
@@ -101,6 +101,7 @@
 
     .tags {
         cursor: pointer;
+        margin-bottom: 0.5em;
 
         li.tag-list-item {
             display: inline-block;
@@ -108,7 +109,7 @@
         }
         a.tag-list-link {
             display: inline-block;
-            margin-bottom: 8px;
+            margin-bottom: 0.5em;
             padding: 4px 8px;
             border-radius: 4px;
             color: #777;
@@ -125,31 +126,56 @@
         ul.post-list {
         }
 
-        li.post-list-item {
-            position: relative;
-            margin-bottom: 10px;
-            padding: 1em 1.5em;
-            border-radius: 4px;
-            background-color: #F6F8FA;
+        a.post-list-link {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 0.5em;
 
-            &:hover {
-                cursor: pointer;
+            .post-index {
+                color: #f0f0f0;
+                font-size: 40px;
+                line-height: 1.2;
+                font-weight: 900;
+                font-family: $font-set;
+            }
+
+            .post-meta {
+                display: flex;
+                flex-direction: column;
+                margin-left: 1em;
+
+                .post-title {
+                    display: inline-block;
+                    width: 260px;
+                    color: #777;
+                    font-size: 16px;
+                    font-weight: 500;
+                    line-height: 1.4;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+
+                .post-desc {
+                    color: #777;
+                    font-weight: 100;
+                }
+
+                .post-word-count {
+                    margin-left: 1em;
+                }
             }
         }
-        a {
-            display: inline-block;
-            color: #777;
-        }
-        .post-list-link {
-            color: #333;
-            font-size: 16px;
-            font-weight: normal;
-        }
-        .post-meta {
-            color: #777;
-        }
-        .post-time {
-            margin-right: 10px;
-        }
+    }
+
+    .back2top p {
+        color: #777;
+        padding: 8px 0;
+        margin: 0;
+        cursor: pointer;
+        font-weight: 100;
+        text-align: center;
+        background-color: #F6F8FA;
     }
 }

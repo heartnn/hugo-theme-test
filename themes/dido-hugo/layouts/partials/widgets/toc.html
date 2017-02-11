@@ -1,0 +1,34 @@
+<div id="toc"></div>
+
+<script src="https://os.alipayobjects.com/rmsportal/DiWXfhUkMZfIUaEbshIW.js"></script>
+<script>
+$('#toc').toc({
+    'selectors': 'h2',
+    'container': 'article',
+    'smoothScrolling': true,
+    'prefix': 'toc',
+    'onHighlight': function(el) {}, //called when a new section is highlighted
+    'highlightOnScroll': true, //add class to heading that is currently in focus
+    'highlightOffset': 100, //offset to trigger the next headline
+    'anchorName': function(i, heading, prefix) { //custom function for anchor name
+        return prefix+i;
+    },
+    'headerText': function(i, heading, $heading) { //custom function building the header-item text
+        return $heading.text();
+    },
+    'itemClass': function(i, heading, $heading, prefix) { // custom function for item class
+        return $heading[0].tagName.toLowerCase();
+    }
+});
+</script>
+
+<script src="https://os.alipayobjects.com/rmsportal/XpaHydNUsaqWkBhDedkU.js"></script>
+<script type="text/javascript">
+jQuery(function($) {
+    $(document).ready( function() {
+        $('#toc').stickUp({
+            marginTop: 'auto'
+        });
+    });
+});
+</script>

@@ -1,14 +1,19 @@
 <div class="recent">
     <ul class="post-list">
-        {{ range first 10 (where .Site.Pages "Section" "post") }}
+        {{ range $index, $elem := first 5 ( where .Site.Pages "Section" "post" ) }}
         <li class="post-list-item">
-            <a href="{{ .RelPermalink}}">
-                <div class="post-title">
-                    <span class="post-list-link">{{ .Title }}</span>
-                </div>
+            <a class="post-list-link" href="{{ $elem.RelPermalink}}">
+                <div class="post-index">0{{ add $index 1 }}</div>
                 <div class="post-meta">
-                    <time class="post-time">{{ .Date.Format "Jan 2, 2006" }}</time>
-                    <span class="post-word-count">{{ .WordCount }} words</span>
+                    <div class="post-title">{{ $elem.Title }}</div>
+                    <div class="post-desc">
+                        <span class="post-time">
+                            {{ $elem.Date.Format "Jan 2, 2006" }}
+                        </span>
+                        <span class="post-word-count">
+                            {{ $elem.WordCount }} words
+                        </span>
+                    </div>
                 </div>
             </a>
         </li>

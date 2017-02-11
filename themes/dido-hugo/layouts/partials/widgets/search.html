@@ -1,6 +1,12 @@
 <div class="search">
     <form target="_blank" method="get" action="//google.com/search">
-		<input type="search" placeholder="Search" name="q" autocomplete="off">
+		<input id="search" type="search" placeholder="Search" name="q" autocomplete="off">
         <input type="hidden" name="sitesearch" value="{{ .Site.BaseURL }}" />
 	</form>
 </div>
+
+<script>
+$('#search').blur(function (e) {
+    $('#search').val('');
+});
+</script>

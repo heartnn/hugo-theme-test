@@ -1,6 +1,7 @@
 .iconfont {
     color: #999;
     font-size: 22px;
+    transition: all 0.5s ease;
 }
 
 a:hover .icon-email {
